@@ -1,0 +1,25 @@
+{
+  "name": "microsoft_luis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yash7977/Microsoft_luis.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yash7977/Microsoft_luis/issues"
+  },
+  "homepage": "https://github.com/yash7977/Microsoft_luis#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "swagger-jsdoc": "^6.0.0-rc.3",
+    "swagger-ui-express": "^4.1.5"
+  }
+}
