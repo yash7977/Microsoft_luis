@@ -13,9 +13,9 @@ const options = {
       info: {
         title: "Microsoft LUIS API",
         version: "1.0.0",
-        description: "SI Assignment swagger",
+        description: "Language Understanding",
       },
-      host: "localhost:3000",
+      host: "104.236.24.12/:3000",
       basePath: "/",
     },
     apis: ["./server.js"],
@@ -25,6 +25,10 @@ const specs = swaggerJsdoc(options);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(cors());
 
+//LUIS API's
+const weatherApi = "https://siproject.cognitiveservices.azure.com/luis/prediction/v3.0/apps/93160191-c6ec-43ce-a2e6-71fb5681787f/slots/production/predict?subscription-key=7d437b07f11544bca6ab594b024550a7&verbose=true&show-all-intents=true&log=true&query=";
+const todoApi = "https://siproject.cognitiveservices.azure.com/luis/prediction/v3.0/apps/d14e99b9-e29a-44b6-97b2-f335f0137873/slots/production/predict?subscription-key=7d437b07f11544bca6ab594b024550a7&verbose=true&show-all-intents=true&log=true&query=";
+const calanderApi = "https://siproject.cognitiveservices.azure.com/luis/prediction/v3.0/apps/20637749-9c62-473c-9749-b2b9af46f509/slots/production/predict?subscription-key=7d437b07f11544bca6ab594b024550a7&verbose=true&show-all-intents=true&log=true&query=";
 /**
  * @swagger
  * /weather/{query}:
@@ -46,8 +50,11 @@ app.use(cors());
  */
 app.get('/weather/:query', (req, res) => {
     console.log(req.params.query)
-
-    var luis_request = 'https://siproject.cognitiveservices.azure.com/luis/prediction/v3.0/apps/93160191-c6ec-43ce-a2e6-71fb5681787f/slots/production/predict?subscription-key=7d437b07f11544bca6ab594b024550a7&verbose=true&show-all-intents=true&log=true&query='+req.params.query
+    var param = req.params.query;
+    if(param===undefined || param===null || param===""){
+        res.status(500).send('The query cannot be null or empty.');
+    }
+    var luis_request = weatherApi+param
     https.get(luis_request, (resp) => {
     let data = '';
 
@@ -69,6 +76,7 @@ app.get('/weather/:query', (req, res) => {
 
     }).on("error", (err) => {
         console.log("Error: " + err.message);
+        res.status(500).send(err.message);
     });
 })
 
@@ -94,8 +102,11 @@ app.get('/weather/:query', (req, res) => {
  */
 app.get('/calendar/:query', (req, res) => {
   console.log(req.params.query)
-
-  var luis_request = 'https://siproject.cognitiveservices.azure.com/luis/prediction/v3.0/apps/20637749-9c62-473c-9749-b2b9af46f509/slots/production/predict?subscription-key=7d437b07f11544bca6ab594b024550a7&verbose=true&show-all-intents=true&log=true&query='+req.params.query
+  var param = req.params.query;
+  if(param===undefined || param===null || param===""){
+    res.status(500).send('The query cannot be null or empty.');
+  }
+  var luis_request = calanderApi+param
   https.get(luis_request, (resp) => {
   let data = '';
 
@@ -117,6 +128,7 @@ app.get('/calendar/:query', (req, res) => {
 
   }).on("error", (err) => {
       console.log("Error: " + err.message);
+      res.status(500).send(err.message);
   });
 })
 
@@ -142,8 +154,11 @@ app.get('/calendar/:query', (req, res) => {
  */
 app.get('/todo/:query', (req, res) => {
   console.log(req.params.query)
-
-  var luis_request = 'https://siproject.cognitiveservices.azure.com/luis/prediction/v3.0/apps/d14e99b9-e29a-44b6-97b2-f335f0137873/slots/production/predict?subscription-key=7d437b07f11544bca6ab594b024550a7&verbose=true&show-all-intents=true&log=true&query='+req.params.query
+  var param = req.params.query;
+  if(param===undefined || param===null || param===""){
+    res.status(500).send('The query cannot be null or empty.');
+  }
+  var luis_request = todoApi+param
   https.get(luis_request, (resp) => {
   let data = '';
 
@@ -157,7 +172,7 @@ app.get('/todo/:query', (req, res) => {
       try {
         var fbResponse = JSON.parse(data);
         console.log("Response: "+fbResponse["prediction"]);
-        res.send(fbResponse["prediction"]);
+        res.send(fbResponse);
       } catch (error) {
         console.error(error);
       }
@@ -165,12 +180,13 @@ app.get('/todo/:query', (req, res) => {
 
   }).on("error", (err) => {
       console.log("Error: " + err.message);
+      res.status(500).send(err.message);
   });
 })
 
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Example app listening at http://104.236.24.12/:${port}`)
 })
 
 
