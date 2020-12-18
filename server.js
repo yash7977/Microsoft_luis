@@ -186,7 +186,7 @@ app.get('/todo/:query', (req, res) => {
 
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://104.236.24.12:${port}`)
+  console.log(`Example app listening at 104.236.24.12:${port}`)
 })
 
 
