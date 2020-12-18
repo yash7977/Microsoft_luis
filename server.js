@@ -15,7 +15,7 @@ const options = {
         version: "1.0.0",
         description: "Language Understanding",
       },
-      host: "104.236.24.12/:3000",
+      host: "104.236.24.12:3000",
       basePath: "/",
     },
     apis: ["./server.js"],
@@ -186,7 +186,7 @@ app.get('/todo/:query', (req, res) => {
 
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://104.236.24.12/:${port}`)
+  console.log(`Example app listening at http://104.236.24.12:${port}`)
 })
 
 
